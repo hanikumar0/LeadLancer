@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import dotenv from 'dotenv';
+import { env } from './config/env';
 import mongoSanitize from 'express-mongo-sanitize';
 import authRoutes from './routes/authRoutes';
 import scrapeRoutes from './routes/scrapeRoutes';
@@ -17,14 +17,12 @@ import automationRoutes from './routes/automationRoutes';
 import systemRoutes from './routes/systemRoutes';
 import { errorHandler } from './middleware/error';
 
-dotenv.config();
-
 const app = express();
 
 // Security Middleware
 app.use(helmet());
 app.use(mongoSanitize());
-app.use(cors({ origin: process.env.CLIENT_URL || '*' }));
+app.use(cors({ origin: env.CLIENT_URL || '*' }));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes

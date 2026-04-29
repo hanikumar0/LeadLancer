@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { createResponse } from '../utils/response';
 import mongoose from 'mongoose';
 import os from 'os';
+import { env } from '../config/env';
 
 export const getHealth = async (req: Request, res: Response) => {
   const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
@@ -9,7 +10,7 @@ export const getHealth = async (req: Request, res: Response) => {
   
   res.json(createResponse(true, 'System is healthy', {
     status: 'online',
-    environment: process.env.NODE_ENV,
+    environment: env.NODE_ENV,
     database: dbStatus,
     uptime: process.uptime(),
     memory: {

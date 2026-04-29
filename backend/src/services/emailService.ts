@@ -1,7 +1,8 @@
 import { Resend } from 'resend';
 import OutreachLog from '../models/OutreachLog';
+import { env } from '../config/env';
 
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy');
+const resend = new Resend(env.RESEND_API_KEY);
 
 export const sendSingleEmail = async (
   userId: string,
@@ -25,7 +26,7 @@ export const sendSingleEmail = async (
 
     // 2. Send via Resend
     // In a real SaaS, the "from" address would use the user's verified domain or a system default.
-    const sender = process.env.SYSTEM_SENDER_EMAIL || 'outreach@leadlancer.app';
+    const sender = env.SYSTEM_SENDER_EMAIL;
     
     const { data, error } = await resend.emails.send({
       from: `LeadLancer <${sender}>`,

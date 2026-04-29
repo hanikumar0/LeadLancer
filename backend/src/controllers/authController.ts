@@ -4,9 +4,10 @@ import jwt from 'jsonwebtoken';
 import { createResponse } from '../utils/response';
 import { z } from 'zod';
 import { AuthRequest } from '../middleware/auth';
+import { env } from '../config/env';
 
 const generateToken = (id: string) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'secret', {
+  return jwt.sign({ id }, env.JWT_SECRET, {
     expiresIn: '30d',
   });
 };
@@ -39,7 +40,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id as string),
+        token: generateToken(user._id.toString()),
       }));
     } else {
       res.status(400);
@@ -60,7 +61,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id as string),
+        token: generateToken(user._id.toString()),
       }));
     } else {
       res.status(401);
