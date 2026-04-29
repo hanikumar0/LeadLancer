@@ -3,12 +3,18 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import mongoSanitize from 'express-mongo-sanitize';
 import authRoutes from './routes/authRoutes';
 import scrapeRoutes from './routes/scrapeRoutes';
 import leadRoutes from './routes/leadRoutes';
 import auditRoutes from './routes/auditRoutes';
 import outreachRoutes from './routes/outreachRoutes';
 import crmRoutes from './routes/crmRoutes';
+import communicationRoutes from './routes/communicationRoutes';
+import notificationRoutes from './routes/notificationRoutes';
+import analyticsRoutes from './routes/analyticsRoutes';
+import automationRoutes from './routes/automationRoutes';
+import systemRoutes from './routes/systemRoutes';
 import { errorHandler } from './middleware/error';
 
 dotenv.config();
@@ -17,6 +23,7 @@ const app = express();
 
 // Security Middleware
 app.use(helmet());
+app.use(mongoSanitize());
 app.use(cors({ origin: process.env.CLIENT_URL || '*' }));
 
 const limiter = rateLimit({
@@ -41,6 +48,11 @@ app.use('/api/leads', leadRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/outreach', outreachRoutes);
 app.use('/api/crm', crmRoutes);
+app.use('/api/communications', communicationRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/automations', automationRoutes);
+app.use('/api/system', systemRoutes);
 
 // Error Handler
 app.use(errorHandler);

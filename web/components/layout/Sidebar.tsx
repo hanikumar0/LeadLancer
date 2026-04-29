@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Home, Users, TrendingUp, Settings, Mail, LogOut, KanbanSquare } from 'lucide-react';
+import { Home, Users, TrendingUp, Settings, Mail, LogOut, KanbanSquare, MessageSquare, BarChart, Cpu, Server } from 'lucide-react';
 
 export function Sidebar() {
   return (
@@ -8,6 +8,18 @@ export function Sidebar() {
       <nav className="flex-1 px-4 space-y-2">
         <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white">
           <Home className="w-5 h-5" /> Dashboard
+        </Link>
+        <Link href="/dashboard/inbox" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white">
+          <MessageSquare className="w-5 h-5" /> Inbox
+        </Link>
+        <Link href="/dashboard/analytics" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white">
+          <BarChart className="w-5 h-5" /> Analytics
+        </Link>
+        <Link href="/dashboard/automations" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white">
+          <Cpu className="w-5 h-5" /> Automations
+        </Link>
+        <Link href="/dashboard/health" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white">
+          <Server className="w-5 h-5" /> System Health
         </Link>
         <Link href="/dashboard/finder" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white">
           <Users className="w-5 h-5" /> Lead Finder

@@ -38,6 +38,11 @@ export interface ILead extends Document {
   nextFollowUpAt?: Date;
   dealValue?: number;
   ownerStatus: string;
+  preferredChannel?: string;
+  whatsappNumber?: string;
+  lastMessageAt?: Date;
+  communicationCount: number;
+  responseStatus: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -89,6 +94,11 @@ const LeadSchema: Schema = new Schema(
     nextFollowUpAt: { type: Date },
     dealValue: { type: Number },
     ownerStatus: { type: String, default: 'active' },
+    preferredChannel: { type: String, enum: ['email', 'whatsapp', 'call'], default: 'email' },
+    whatsappNumber: { type: String },
+    lastMessageAt: { type: Date },
+    communicationCount: { type: Number, default: 0 },
+    responseStatus: { type: String, enum: ['none', 'replied', 'bounced', 'do_not_contact'], default: 'none' },
   },
   { timestamps: true }
 );
