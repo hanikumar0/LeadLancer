@@ -13,7 +13,7 @@ export const startAudit = async (req: AuthRequest, res: Response) => {
     if (!lead) return res.status(404).json(createResponse(false, 'Lead not found'));
 
     // Start background audit
-    runAudit(leadId).catch(console.error);
+    runAudit(leadId as string).catch(console.error);
 
     res.status(202).json(createResponse(true, 'Audit queued successfully'));
   } catch (error) {
@@ -39,7 +39,7 @@ export const startBulkAudit = async (req: AuthRequest, res: Response) => {
     }
 
     leads.forEach(lead => {
-      runAudit(lead._id as string).catch(console.error);
+      runAudit(lead._id.toString()).catch(console.error);
     });
 
     res.status(202).json(createResponse(true, `Queued ${leads.length} leads for auditing`));

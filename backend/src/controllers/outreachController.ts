@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { sendSingleEmail } from '../services/emailService';
-import { generateColdEmail } from '../services/aiService';
+import { generateAiEmail as generateAiEmailService } from '../services/aiService';
 import Lead from '../models/Lead';
 import OutreachLog from '../models/OutreachLog';
 import { AuthRequest } from '../middleware/auth';
@@ -21,7 +21,7 @@ export const sendEmail = async (req: AuthRequest, res: Response) => {
 
     const result = await sendSingleEmail(
       req.user._id as string,
-      lead._id as string,
+      lead._id.toString(),
       lead.email,
       subject,
       body
@@ -48,14 +48,13 @@ export const generateAiEmail = async (req: AuthRequest, res: Response) => {
     const lead = await Lead.findOne({ _id: leadId, userId: req.user._id });
     if (!lead) return res.status(404).json(createResponse(false, 'Lead not found'));
 
-    const aiEmail = await generateColdEmail(
-      lead.businessName,
-      lead.niche,
-      lead.city,
-      lead.issues || [],
-      lead.bestServiceToSell || 'Digital Marketing',
-      tone
-    );
+    const aiEmail = await generateAiEmailService({
+      leadBusinessName: lead.businessName,
+      niche: lead.niche,
+      city: lead.city,
+      issues: lead.issues || [],
+      bestService: lead.bestServiceToSell || 'Digital Marketing'
+    });
 
     res.json(createResponse(true, 'AI Email generated', aiEmail));
   } catch (error) {

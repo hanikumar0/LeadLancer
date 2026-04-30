@@ -33,7 +33,7 @@ export const addTask = async (req: AuthRequest, res: Response) => {
 
 export const dismissRec = async (req: AuthRequest, res: Response) => {
   try {
-    await dismissRecommendation(req.params.id, req.user._id.toString());
+    await dismissRecommendation(req.params.id as string, req.user._id.toString());
     res.json(createResponse(true, 'Recommendation dismissed'));
   } catch (error) {
     res.status(500).json(createResponse(false, 'Failed to dismiss recommendation'));
